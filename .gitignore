@@ -6,3 +6,4 @@ assets/portal/node_modules/
 .DS_Store
 .taskcat
 taskcat_outputs
+node_modules

@@ -4,7 +4,7 @@ import { TranscribeService, DynamoDB, S3 } from 'aws-sdk'
 import { parseS3Object } from '@music-metadata/s3'
 
 import { StartTranscriptionJobRequest } from 'aws-sdk/clients/transcribeservice'
-import FileType from 'file-type'
+import * as FileType from 'file-type'
 
 const transcribeService = new TranscribeService({ apiVersion: '2017-10-26' })
 const documentClient = new DynamoDB.DocumentClient()
@@ -67,7 +67,7 @@ export const getAudioMetadata = async (s3Object: S3Params): Promise<S3Params> =>
 
 export const createOrUpdateVocabulary = async (vocab: S3Params): Promise<void> => {
   const params = {
-    LanguageCode: 'en-US',
+    LanguageCode: 'es-US',
     VocabularyName: process.env.CUSTOM_VOCABULARY_NAME,
     VocabularyFileUri: `s3://${vocab.name}/${vocab.key}`,
   }
@@ -96,7 +96,7 @@ export const handler: S3Handler = async (event: S3Event) => {
     .filter(params => params.type === 'audio')
     .map(params => {
       let transcriptionJob: StartTranscriptionJobRequest =  {
-        LanguageCode: 'en-US',
+        LanguageCode: 'es-US',
         Media: {
           MediaFileUri: decodeURIComponent(`s3://${params.name}/${params.key}`)
         },
